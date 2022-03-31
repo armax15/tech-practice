@@ -5,7 +5,7 @@ namespace dataStructures;
 class MaxHeap
 {
 
-    private array $heap = [];
+    private array $heap;
 
     private int $size;
 
@@ -86,6 +86,11 @@ class MaxHeap
         }
 
         return $this->heap[$index] ?? null;
+    }
+
+    public function getLastIndex(): int
+    {
+        return max(0, count($this->heap) - 1);
     }
 
     private function siftUp(int $index): void
