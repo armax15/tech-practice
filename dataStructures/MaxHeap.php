@@ -1,6 +1,9 @@
 <?php
 
-namespace dataStructures;
+namespace ds;
+
+use InvalidArgumentException;
+use RuntimeException;
 
 class MaxHeap
 {
@@ -14,7 +17,7 @@ class MaxHeap
     public function __construct(int $size, int $maxSize, array $initHeap = [])
     {
         if (count($initHeap) > $maxSize) {
-            throw new \InvalidArgumentException("Initial heap size greater than {$maxSize} max size.");
+            throw new InvalidArgumentException("Initial heap size greater than $maxSize max size.");
         }
 
         $this->heap = $initHeap;
@@ -47,7 +50,7 @@ class MaxHeap
     private function throwIfIndexOutOfBound(int $index): void
     {
         if (!$this->isIndexInBound($index)) {
-            throw new \InvalidArgumentException("Index {$index} is out of bound.");
+            throw new InvalidArgumentException("Index $index is out of bound.");
         }
     }
 
@@ -82,7 +85,7 @@ class MaxHeap
     public function getCurrent(int $index): ?int
     {
         if (!$this->isIndexInBound($index)) {
-            throw new \InvalidArgumentException("Index {$index} is out of bound.");
+            throw new InvalidArgumentException("Index $index is out of bound.");
         }
 
         return $this->heap[$index] ?? null;
@@ -93,7 +96,7 @@ class MaxHeap
         return max(0, count($this->heap) - 1);
     }
 
-    private function siftUp(int $index): void
+    public function siftUp(int $index): void
     {
         $needContinue = true;
         while($index > 0 && $needContinue) {
@@ -135,6 +138,11 @@ class MaxHeap
         return $this->heap[0];
     }
 
+    public function getMax(): int
+    {
+        return $this->getRoot();
+    }
+
     public function extractMax(): int
     {
         $maxValue = $this->getRoot();
@@ -145,10 +153,10 @@ class MaxHeap
         return $maxValue;
     }
 
-    public function insert(int $value)
+    public function insert(int $value): void
     {
         if ($this->size + 1 > $this->maxSize) {
-            throw new \RuntimeException("Heap is full.");
+            throw new RuntimeException("Heap is full.");
         }
 
         $maxIndex = $this->size;
